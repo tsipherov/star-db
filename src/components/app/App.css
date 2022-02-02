@@ -1,8 +1,16 @@
-.App {
-  text-align: center;
-}
+ .App {
+   margin: 0 auto;
+   padding: 0 2rem;
+   max-width: 1600px;
+ }
 
-.App-logo {
+ @media screen and (max-width: 640px) {
+   .App {
+     padding: 0.5rem;
+   }
+ }
+
+ /*.App-logo {
   height: 40vmin;
   pointer-events: none;
 }
@@ -35,4 +43,4 @@
   to {
     transform: rotate(360deg);
   }
-}
+} */
