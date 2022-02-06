@@ -18,6 +18,11 @@
     text-decoration: none;
 }
 
+.header a.active {
+    color: white;
+    text-decoration: double;
+}
+
 .header h3 a {
     color: white;
 }

@@ -1,58 +1,85 @@
-import React, { Component } from 'react';
-import SwapiService from '../../services/SwapiService';
-import Spinner from '../spinner/Spinner';
-import ErrorIndicator from '../errorIndicator/ErrorIndicator'
+import React, { Component } from "react";
+import Spinner from "../spinner/Spinner";
+import ErrorIndicator from "../errorIndicator/ErrorIndicator";
 
-
-import './ItemList.css';
+import "./ItemList.css";
 
 export default class ItemList extends Component {
-
-  swapiService = new SwapiService()
-
   state = {
-    peopleList: null,
+    itemList: null,
     loading: true,
-    error: false
-  }
+    error: false,
+  };
 
   componentDidMount() {
-    this.updatePeopleList()
+    console.log("didMount");
+    const { getData } = this.props;
+
+    getData()
+      .then((itemList) => {
+        console.log("getData");
+        this.setState({ itemList, loading: false });
+      })
+      .catch(this.onErrorHeandler);
   }
 
-  updatePeopleList = () => {
-    this.swapiService.getAllPeople()
-      .then((peopleList) => {
-        this.setState({ peopleList, loading: false })
-      })
-      .catch(this.onErrorHeandler)
+  componentDidUpdate(prevProps) {
+    console.log("didUpdate");
+
+    const { getData } = this.props;
+    if (prevProps.getData !== getData) {
+      getData()
+        .then((itemList) => {
+          console.log("getData");
+          this.setState({ itemList, loading: false });
+        })
+        .catch(this.onErrorHeandler);
+    }
+    // console.log(this.props);
+
+    // const { itemId } = this.props;
+
+    // if (prevProps.itemId !== itemId) {
+    //   this.updatePerson(itemId);
+    // }
+  }
+
+  componentWillUnmount() {
+    console.log("willUnmount");
   }
 
   onErrorHeandler = (err) => {
     this.setState({
       error: true,
-      loading: false
-    })
+      loading: false,
+    });
   };
 
   renderItems(arr) {
-    return arr.map(({ name, id }) => {
-      return <li
-        className="list-group-item"
-        key={id}
-        onClick={() => this.props.onClickHandler(id)}
-      >{name}</li>
-    })
+    return arr.map((item) => {
+      const { id } = item;
+      const label = this.props.labelRender(item);
+      return (
+        <li
+          className="list-group-item"
+          key={id}
+          onClick={() => this.props.onClickHandler(id)}
+        >
+          {label}
+        </li>
+      );
+    });
   }
 
   render() {
-    const { peopleList, loading, error } = this.state
+    console.log("render");
+    const { itemList, loading, error } = this.state;
 
-    const listItems = peopleList ? this.renderItems(peopleList) : null
+    const listItems = itemList ? this.renderItems(itemList) : null;
 
     return (
       <ul className="item-list list-group">
-        {error ? <ErrorIndicator /> : (loading ? <Spinner /> : listItems)}
+        {error ? <ErrorIndicator /> : loading ? <Spinner /> : listItems}
       </ul>
     );
   }
