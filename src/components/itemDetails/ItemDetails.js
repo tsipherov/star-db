@@ -21,7 +21,6 @@ export default class PersonDetails extends Component {
 
     if (prevProps !== this.props) {
       this.updateDetails(itemId);
-      console.log("update details");
     }
   }
 
@@ -33,7 +32,7 @@ export default class PersonDetails extends Component {
 
   render() {
     if (!this.state.itemObj) {
-      return <span>Select a item from a list</span>;
+      return <span>Select an item from a list</span>;
     }
     const { name, image } = this.state.itemObj;
 

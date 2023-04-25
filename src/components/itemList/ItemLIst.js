@@ -12,20 +12,16 @@ export default class ItemList extends Component {
   };
 
   componentDidMount() {
-    console.log("didMount");
     const { getData } = this.props;
 
     getData()
       .then((itemList) => {
-        console.log("getData");
         this.setState({ itemList, loading: false });
       })
       .catch(this.onErrorHeandler);
   }
 
   componentDidUpdate(prevProps) {
-    console.log("didUpdate");
-
     const { getData } = this.props;
     if (prevProps.getData !== getData) {
       getData()
@@ -35,17 +31,6 @@ export default class ItemList extends Component {
         })
         .catch(this.onErrorHeandler);
     }
-    // console.log(this.props);
-
-    // const { itemId } = this.props;
-
-    // if (prevProps.itemId !== itemId) {
-    //   this.updatePerson(itemId);
-    // }
-  }
-
-  componentWillUnmount() {
-    console.log("willUnmount");
   }
 
   onErrorHeandler = (err) => {
@@ -72,7 +57,6 @@ export default class ItemList extends Component {
   }
 
   render() {
-    console.log("render");
     const { itemList, loading, error } = this.state;
 
     const listItems = itemList ? this.renderItems(itemList) : null;
