@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Header from "../header/Header";
 import ItemList from "../itemList/ItemLIst";
 import ItemDetails from "../itemDetails/ItemDetails";
@@ -42,6 +42,7 @@ class App extends Component {
         <Header />
         <RandomPlanet />
         <Routes>
+          <Route path="/" element={<Navigate to="/people" />} />
           <Route
             path="/people"
             element={
