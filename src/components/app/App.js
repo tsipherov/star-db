@@ -21,9 +21,9 @@ class App extends Component {
         <RandomPlanet />
         <Routes>
           <Route path="/" element={<Navigate to="/people" />} />
-          <Route path="/people" element={<PeoplePage />} />
-          <Route path="/planets" element={<PlanetsPage />} />
-          <Route path="/starships" element={<StarshipsPage />} />
+          <Route path="/people/*" element={<PeoplePage />} />
+          <Route path="/planets/*" element={<PlanetsPage />} />
+          <Route path="/starships/*" element={<StarshipsPage />} />
         </Routes>
       </div>
     );

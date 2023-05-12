@@ -1,61 +1,49 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 
 import "./ItemDetails.css";
+import { useParams } from "react-router-dom";
 
-export default class ItemDetails extends Component {
-  state = {
-    itemObj: null,
+const ItemDetails = ({ getData, renderData }) => {
+  const [itemObj, setItemObj] = useState(null);
+  const { ["*"]: id } = useParams();
+
+  useEffect(() => {
+    if (id) updateDetails(id);
+  }, [id]);
+
+  const updateDetails = (id) => {
+    getData(id).then((itemObj) => {
+      setItemObj(itemObj);
+    });
   };
 
-  componentDidMount() {
-    const { itemId } = this.props;
+  const renderProperties = (data) => {
+    return data.map((prop) => {
+      return (
+        <li className="list-group-item" key={prop}>
+          <span className="term">{prop}</span>
+          <span>{itemObj[prop]}</span>
+        </li>
+      );
+    });
+  };
 
-    this.updateDetails(itemId);
+  if (!itemObj) {
+    return <span>Select an item from a list</span>;
   }
+  const { name, image } = itemObj;
+  return (
+    <div className="person-details card">
+      <img className="person-image" alt={name} src={image} />
 
-  componentDidUpdate(prevProps) {
-    const { itemId } = this.props;
-
-    if (prevProps !== this.props) {
-      this.updateDetails(itemId);
-    }
-  }
-
-  updateDetails(id) {
-    const { getData } = this.props;
-
-    getData(id).then((itemObj) => this.setState({ itemObj: itemObj }));
-  }
-
-  render() {
-    if (!this.state.itemObj) {
-      return <span>Select an item from a list</span>;
-    }
-    const { name, image } = this.state.itemObj;
-
-    const renderProperties = (data) => {
-      const { itemObj } = this.state;
-      return data.map((prop) => {
-        return (
-          <li className="list-group-item" key={prop}>
-            <span className="term">{prop}</span>
-            <span>{itemObj[prop]}</span>
-          </li>
-        );
-      });
-    };
-
-    const list = renderProperties(this.props.renderData);
-
-    return (
-      <div className="person-details card">
-        <img className="person-image" alt="Character" src={image} />
-
-        <div className="card-body">
-          <h4>{name}</h4>
-          <ul className="list-group list-group-flush">{list}</ul>
-        </div>
+      <div className="card-body">
+        <h4>{name}</h4>
+        <ul className="list-group list-group-flush">
+          {renderProperties(renderData)}
+        </ul>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
+export default ItemDetails;

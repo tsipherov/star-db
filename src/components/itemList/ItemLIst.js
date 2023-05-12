@@ -1,19 +1,16 @@
 import React from "react";
 import "./ItemList.css";
+import { Link } from "react-router-dom";
 
-const ItemList = ({ data, labelRender, onClickHandler }) => {
+const ItemList = ({ data, labelRender }) => {
   const renderItems = (arr) => {
     return arr.map((item) => {
       const { id } = item;
       const label = labelRender(item);
       return (
-        <li
-          className="list-group-item"
-          key={id}
-          onClick={() => onClickHandler(id)}
-        >
+        <Link to={id} className="list-group-item" key={id}>
           {label}
-        </li>
+        </Link>
       );
     });
   };

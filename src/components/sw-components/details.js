@@ -6,30 +6,27 @@ const swapiService = new SwapiService();
 
 const { getPerson, getPlanet, getStarship } = swapiService;
 
-export const PersonDetails = ({ itemId }) => {
+export const PersonDetails = () => {
   return (
     <ItemDetails
-      itemId={itemId}
       getData={getPerson}
       renderData={["gender", "birthYear", "eyeColor"]}
     />
   );
 };
 
-export const PlanetDetails = ({ itemId }) => {
+export const PlanetDetails = () => {
   return (
     <ItemDetails
-      itemId={itemId}
       getData={getPlanet}
       renderData={["id", "rotationPeriod", "population", "diameter"]}
     />
   );
 };
 
-export const StarshipDetails = ({ itemId }) => {
+export const StarshipDetails = () => {
   return (
     <ItemDetails
-      itemId={itemId}
       getData={getStarship}
       renderData={[
         "model",
